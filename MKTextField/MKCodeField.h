@@ -23,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *underscoreViews;
 @property (nonatomic, strong) NSMutableArray *digitFields;
 
+//Label delimeters
+@property (nonatomic, strong) NSMutableArray *delimeterLabels;
+
 @property (nonatomic) NSUInteger numberOfSymbols;
 @property (nonatomic) CGFloat distanceBetweenSymbols;
 @property (nonatomic) UIFont *font;
@@ -31,6 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) CGFloat dashHeight;
 @property (nonatomic) BOOL shouldResignFirstResponderOnFinish;
 @property (nonatomic) UIKeyboardType keyboardType;
+
+//delimeter position to delimeter symbol
+@property (nonatomic, nullable) NSDictionary *delimeters;
+@property (nonatomic, nullable) UIColor *delimeterColor;
+@property (nonatomic, nullable) UIFont *delimeterFont;
+
 
 
 //Delegate

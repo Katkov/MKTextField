@@ -18,6 +18,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    // Phone Field
+    MKCodeField *phoneField = [[MKCodeField alloc] init];
+    phoneField.numberOfSymbols = 14;
+    phoneField.distanceBetweenSymbols = 6.0f;
+    phoneField.dashColor = [UIColor blackColor];
+    phoneField.dashHeight = 5.0f;
+    phoneField.font = [UIFont fontWithName:@"Arial" size:26.0];
+    phoneField.shouldResignFirstResponderOnFinish = true;
+    phoneField.textColor = [UIColor blueColor];
+    phoneField.keyboardType = UIKeyboardTypeNumberPad;
+    phoneField.delegate = self;
+    phoneField.delimeters = @{ @"0" : @"(", @"4" : @")", @"5" : @" ", @"9" : @"-"};
+    phoneField.delimeterColor = [UIColor blueColor];
+    phoneField.delimeterFont = [UIFont fontWithName:@"Arial" size:38.0];
+    [phoneField setFrame:CGRectMake(20, 200, 320, 40)];
+    [self.view addSubview:phoneField];
+    
     // Code Field
     MKCodeField *codeField = [[MKCodeField alloc] init];
     codeField.numberOfSymbols = 6;
@@ -31,8 +48,6 @@
     codeField.delegate = self;
     [codeField setFrame:CGRectMake(40, 40, 200, 40)];
     [self.view addSubview:codeField];
-    
-    // Phone Field
 }
 
 -(void)mkCodeFieldEndEditing:(NSString *)code

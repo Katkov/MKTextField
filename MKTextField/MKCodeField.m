@@ -30,7 +30,7 @@
     [self initTouchView:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 }
 
--(void) tapDetected
+-(void) tapDetected:(UITapGestureRecognizer*)sender
 {
     UITextField *textField = [self firstEmptyOrLast];
     [textField becomeFirstResponder];
@@ -41,7 +41,7 @@
     self.touchView = [[UIView alloc] initWithFrame:frame];
     self.backgroundColor = [UIColor clearColor];
     //set listener
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected:)];
     tap.numberOfTapsRequired = 1;
     [self.touchView setUserInteractionEnabled:YES];
     [self.touchView addGestureRecognizer: tap];
@@ -52,22 +52,34 @@
 - (void) initDigitFieldsWithWidth:(CGFloat) width
 {
     self.digitFields = [NSMutableArray array];
+    self.delimeterLabels = [NSMutableArray array];
     for (int i = 0; i < self.numberOfSymbols; i++) {
-        UITextField *textField = [[UITextField alloc] initWithFrame: CGRectMake(i * width + i * self.distanceBetweenSymbols, 0, width, self.frame.size.height * 0.8f)];
-        
-        textField.borderStyle = UITextBorderStyleNone;
-        textField.font = self.font;
-        textField.textColor = self.textColor;
-        textField.autocorrectionType = UITextAutocorrectionTypeNo;
-        textField.keyboardType = self.keyboardType;
-        textField.returnKeyType = UIReturnKeyDefault;
-        textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        textField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-        textField.textAlignment = NSTextAlignmentCenter;
-        textField.tag = i;
-        textField.delegate = self;
-        [self addSubview:textField];
-        [self.digitFields addObject:textField];
+        //Try to retrive delimeter
+        NSString *key = [NSString stringWithFormat:@"%d", i];
+        if (self.delimeters != NULL && self.delimeters[key] != NULL) {
+            UILabel *delimeterLabel = [[UILabel alloc] initWithFrame:CGRectMake(i * width + i * self.distanceBetweenSymbols, 0, width, self.frame.size.height * 0.9f)];
+            delimeterLabel.text = self.delimeters[key];
+            delimeterLabel.textColor = self.delimeterColor;
+            delimeterLabel.textAlignment = NSTextAlignmentCenter;
+            delimeterLabel.font = self.delimeterFont;
+            [self addSubview:delimeterLabel];
+            [self.delimeterLabels addObject:delimeterLabel];
+        } else {
+            UITextField *textField = [[UITextField alloc] initWithFrame: CGRectMake(i * width + i * self.distanceBetweenSymbols, 0, width, self.frame.size.height * 0.8f)];
+            textField.borderStyle = UITextBorderStyleNone;
+            textField.font = self.font;
+            textField.textColor = self.textColor;
+            textField.autocorrectionType = UITextAutocorrectionTypeNo;
+            textField.keyboardType = self.keyboardType;
+            textField.returnKeyType = UIReturnKeyDefault;
+            textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+            textField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+            textField.textAlignment = NSTextAlignmentCenter;
+            textField.tag = i;
+            textField.delegate = self;
+            [self addSubview:textField];
+            [self.digitFields addObject:textField];
+        }
     }
 }
 
@@ -75,6 +87,12 @@
 {
     self.underscoreViews = [NSMutableArray array];
     for (int i = 0; i < self.numberOfSymbols; i++) {
+        //Try to retrive delimeter
+        NSString *key = [NSString stringWithFormat:@"%d", i];
+        if (self.delimeters != NULL && self.delimeters[key] != NULL) {
+            continue;
+        }
+        //If OK, set up view
         UIView *view = [[UIView alloc] initWithFrame: CGRectMake(i * width + i * self.distanceBetweenSymbols, self.frame.size.height * 0.85f, width, self.dashHeight)];
         view.backgroundColor = self.dashColor;
         [self addSubview: view];
@@ -84,32 +102,24 @@
 
 - (UITextField*) next:(UITextField*) textField
 {
-    return self.digitFields[textField.tag + 1];
+    for (int i = 0; i < self.digitFields.count; i++) {
+        UITextField *this = self.digitFields[i];
+        if (this.tag == textField.tag && i + 1 < self.digitFields.count) {
+            return self.digitFields[i + 1];
+        }
+    }
+    return NULL;
 }
 
 - (UITextField*) previous:(UITextField*) textField
 {
-    return self.digitFields[textField.tag - 1];
-}
-
-- (UITextField*) first:(UITextField*) textField
-{
-    return self.digitFields[0];
-}
-
-- (UITextField*) last:(UITextField*) textField
-{
-    return self.digitFields[self.digitFields.count - 1];
-}
-
-- (BOOL) hasNext:(UITextField*) textField
-{
-    return textField.tag < self.digitFields.count - 1;
-}
-
-- (BOOL) hasPrevious:(UITextField*) textField
-{
-    return textField.tag > 0;
+    for (int i = 0; i < self.digitFields.count; i++) {
+        UITextField *this = self.digitFields[i];
+        if (this.tag == textField.tag && i - 1 >= 0) {
+            return self.digitFields[i - 1];
+        }
+    }
+    return NULL;
 }
 
 - (UITextField*) firstEmptyOrLast
@@ -143,8 +153,8 @@
 
     if (isBackSpace == -8) {
         if ([textField.text isEqualToString:space]) {
-            if ([self hasPrevious:textField]) {
-                UITextField *previous = [self previous:textField];
+            UITextField *previous = [self previous:textField];
+            if (previous != NULL) {
                 if ([textField.text isEqualToString:space]) {
                     [previous setText:space];
                 }
@@ -156,15 +166,15 @@
         if ([textField.text isEqualToString:space] || [textField.text isEqualToString:empty]) {
             [textField setText:string];
         }
-        if ([self hasNext:textField]) {
-            UITextField *next = [self next:textField];
+        UITextField *next = [self next:textField];
+        if (next != NULL) {
             [next setText:space];
             [next becomeFirstResponder];
         } else {
             if (self.shouldResignFirstResponderOnFinish) {
                 [textField resignFirstResponder];
+                if (self.delegate) [self.delegate mkCodeFieldEndEditing:self.getCode];
             }
-            if (self.delegate) [self.delegate mkCodeFieldEndEditing:self.getCode];
         }
     }
     return NO;
@@ -172,9 +182,16 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if ([self hasNext:textField]) {
+    if ([self next:textField] != NULL) {
         return NO;
     }
+    //If last test field but empty
+    if ([textField.text isEqualToString:@""] || [textField.text isEqualToString:@" "]) {
+        return NO;
+    }
+    //If last and filled
+    [textField resignFirstResponder];
+    if (self.delegate) [self.delegate mkCodeFieldEndEditing:self.getCode];
     return YES;
 }
 //DELEGATE END
