@@ -10,11 +10,6 @@
 
 @implementation MKCodeField
 
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-    // UIView will be "transparent" for touch events if we return NO
-    return YES;
-}
-
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
@@ -30,10 +25,10 @@
     [self initTouchView:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 }
 
+//TAP ON View DETECTED
 -(void) tapDetected:(UITapGestureRecognizer*)sender
 {
-    UITextField *textField = [self firstEmptyOrLast];
-    [textField becomeFirstResponder];
+    [self becomeFirstResponder];
 }
 
 - (void) initTouchView:(CGRect)frame
@@ -141,6 +136,22 @@
         result = [result stringByAppendingString: textField.text];
     }
     return result;
+}
+
+- (BOOL) becomeFirstResponder
+{
+    UITextField *textField = [self firstEmptyOrLast];
+    [textField becomeFirstResponder];
+    return TRUE;
+}
+
+- (BOOL)resignFirstResponder
+{
+    for (int i = 0; i < self.digitFields.count; i++) {
+        UITextField *textField = self.digitFields[i];
+        [textField resignFirstResponder];
+    }
+    return TRUE;
 }
 
 //DELEGATE START

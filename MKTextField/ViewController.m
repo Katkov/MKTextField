@@ -44,7 +44,7 @@
     codeField.font = [UIFont fontWithName:@"Arial" size:26.0];
     codeField.shouldResignFirstResponderOnFinish = true;
     codeField.textColor = [UIColor blackColor];
-    codeField.keyboardType = UIKeyboardTypeNamePhonePad;
+    codeField.keyboardType = UIKeyboardTypeNumberPad;
     codeField.delegate = self;
     [codeField setFrame:CGRectMake(40, 40, 200, 40)];
     [self.view addSubview:codeField];
