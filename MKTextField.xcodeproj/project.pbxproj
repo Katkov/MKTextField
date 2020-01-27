@@ -15,7 +15,6 @@
 		00B4F85923DA098100869455 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00B4F85723DA098100869455 /* LaunchScreen.storyboard */; };
 		00B4F85C23DA098100869455 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B4F85B23DA098100869455 /* main.m */; };
 		00B4F86423DA0B7900869455 /* MKCodeField.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B4F86323DA0B7900869455 /* MKCodeField.m */; };
-		00B4F86723DA0B9B00869455 /* MKPhoneField.m in Sources */ = {isa = PBXBuildFile; fileRef = 00B4F86623DA0B9B00869455 /* MKPhoneField.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,8 +32,6 @@
 		00B4F85B23DA098100869455 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		00B4F86223DA0B7800869455 /* MKCodeField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKCodeField.h; sourceTree = "<group>"; };
 		00B4F86323DA0B7900869455 /* MKCodeField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKCodeField.m; sourceTree = "<group>"; };
-		00B4F86523DA0B9B00869455 /* MKPhoneField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKPhoneField.h; sourceTree = "<group>"; };
-		00B4F86623DA0B9B00869455 /* MKPhoneField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKPhoneField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +77,6 @@
 				00B4F85B23DA098100869455 /* main.m */,
 				00B4F86323DA0B7900869455 /* MKCodeField.m */,
 				00B4F86223DA0B7800869455 /* MKCodeField.h */,
-				00B4F86523DA0B9B00869455 /* MKPhoneField.h */,
-				00B4F86623DA0B9B00869455 /* MKPhoneField.m */,
 			);
 			path = MKTextField;
 			sourceTree = "<group>";
@@ -161,7 +156,6 @@
 				00B4F84B23DA097800869455 /* AppDelegate.m in Sources */,
 				00B4F85C23DA098100869455 /* main.m in Sources */,
 				00B4F84E23DA097800869455 /* SceneDelegate.m in Sources */,
-				00B4F86723DA0B9B00869455 /* MKPhoneField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

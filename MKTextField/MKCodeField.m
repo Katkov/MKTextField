@@ -157,6 +157,13 @@
 //DELEGATE START
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+    //Check for allowed characters
+    if (self.allowedCharactersSet != NULL) {
+        NSCharacterSet *cs = [[NSCharacterSet characterSetWithCharactersInString:self.allowedCharactersSet] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
+        if (![string isEqualToString:filtered]) return NO;
+    }
+    //Main functionality
     NSString *space = @" ";
     NSString *empty = @"";
     const char * _char = [string cStringUsingEncoding:NSUTF8StringEncoding];

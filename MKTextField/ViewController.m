@@ -32,6 +32,7 @@
     phoneField.delimeters = @{ @"0" : @"(", @"4" : @")", @"5" : @" ", @"9" : @"-"};
     phoneField.delimeterColor = [UIColor blueColor];
     phoneField.delimeterFont = [UIFont fontWithName:@"Arial" size:38.0];
+    phoneField.allowedCharactersSet = @" 01234567";
     [phoneField setFrame:CGRectMake(20, 200, 320, 40)];
     [self.view addSubview:phoneField];
     

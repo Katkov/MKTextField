@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable) UIColor *delimeterColor;
 @property (nonatomic, nullable) UIFont *delimeterFont;
 
-
+@property (nonatomic, nullable) NSString *allowedCharactersSet;
 
 //Delegate
 @property (nonatomic, weak, nullable) id <MKCodeFieldDelegate> delegate;
