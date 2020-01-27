@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @required
 
 - (void)mkCodeFieldEndEditing: (NSString *)code;
+- (void)mkCodeFieldProcessEditing: (NSString *)code;
 
 @end
 

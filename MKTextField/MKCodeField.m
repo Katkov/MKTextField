@@ -133,6 +133,11 @@
     NSString *result = @"";
     for(int i=0; i < self.digitFields.count; i++) {
         UITextField *textField = self.digitFields[i];
+        //If next text field is empty then break;
+        if ([textField.text isEqualToString:@" "] || [textField.text isEqualToString:@""]) {
+            break;
+        }
+        //Otherwise add to result
         result = [result stringByAppendingString: textField.text];
     }
     return result;
@@ -194,6 +199,10 @@
                 if (self.delegate) [self.delegate mkCodeFieldEndEditing:self.getCode];
             }
         }
+    }
+    //call callback
+    if ([self.getCode length] < self.digitFields.count) {
+        if (self.delegate) [self.delegate mkCodeFieldProcessEditing:self.getCode];
     }
     return NO;
 }

@@ -53,7 +53,12 @@
 
 -(void)mkCodeFieldEndEditing:(NSString *)code
 {
-    NSLog(@"%@", code);
+    NSLog(@"End editing %@", code);
+}
+
+-(void)mkCodeFieldProcessEditing:(NSString *)code
+{
+    NSLog(@"Process editing %@", code);
 }
 
 @end
