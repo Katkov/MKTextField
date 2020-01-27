@@ -23,12 +23,24 @@
     [self initUnderscoreViewsWithWidth:width];
     //init touchView
     [self initTouchView:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    //init toolbar if it is needed
+    [self initToolBar];
 }
 
 //TAP ON View DETECTED
 -(void) tapDetected:(UITapGestureRecognizer*)sender
 {
     [self becomeFirstResponder];
+}
+
+- (void) initToolBar
+{
+    if (self.toolBar != NULL) {
+        for (int i = 0; i < self.digitFields.count; i++) {
+            UITextField *textField = self.digitFields[i];
+            textField.inputAccessoryView = self.toolBar;
+        }
+    }
 }
 
 - (void) initTouchView:(CGRect)frame

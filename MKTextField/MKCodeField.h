@@ -20,9 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MKCodeField : UIView <UITextFieldDelegate>
 
+//Do not use the properties directly
 @property (nonatomic, strong) UIView *touchView;
 @property (nonatomic, strong) NSMutableArray *underscoreViews;
 @property (nonatomic, strong) NSMutableArray *digitFields;
+
+//Can be set
+@property (nonatomic, strong, nullable) UIToolbar *toolBar;
 
 //Label delimeters
 @property (nonatomic, strong) NSMutableArray *delimeterLabels;
